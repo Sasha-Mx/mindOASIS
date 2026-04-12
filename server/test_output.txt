@@ -1,0 +1,35 @@
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ΓÜÖ∩╕Å  override existing env vars with { override: true }
+Testing AI Response with Llama 3.3 70B...
+SENDING TO OPENROUTER: {
+  "model": "meta-llama/llama-3.3-70b-instruct:free",
+  "max_tokens": 1500,
+  "messages": [
+    {
+      "role": "user",
+      "content": "Reply with a simple JSON object: { \"status\": \"success\", \"message\": \"AI is working!\" }. Start your response with { directly."
+    }
+  ]
+}
+FULL ERROR: Request failed with status code 429 AxiosError: Request failed with status code 429
+    at settle (d:\kioskii\kiosk\server\node_modules\axios\dist\node\axios.cjs:2304:7)
+    at IncomingMessage.handleStreamEnd (d:\kioskii\kiosk\server\node_modules\axios\dist\node\axios.cjs:3772:13)
+    at IncomingMessage.emit (node:events:520:35)
+    at endReadableNT (node:internal/streams/readable:1701:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+    at Axios.request (d:\kioskii\kiosk\server\node_modules\axios\dist\node\axios.cjs:5110:41)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async generateAIResponse (d:\kioskii\kiosk\server\utils\ai.js:46:22)
+    at async testAI (d:\kioskii\kiosk\server\test_ai.js:9:20)
+AI Test Failed: Request failed with status code 429
+Response Data: {
+  "error": {
+    "message": "Provider returned error",
+    "code": 429,
+    "metadata": {
+      "raw": "meta-llama/llama-3.3-70b-instruct:free is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations",
+      "provider_name": "Venice",
+      "is_byok": false
+    }
+  },
+  "user_id": "user_3BGAgGxfwBGgr9JfRlUEhjF6dSu"
+}
