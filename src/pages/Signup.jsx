@@ -186,7 +186,8 @@ const Signup = () => {
           <div className="grid grid-cols-2 gap-3 mb-6">
             <button 
               type="button"
-              className="flex items-center justify-center gap-2 py-3 border border-[var(--input-border)] rounded-xl text-sm font-semibold text-[var(--text-2)] hover:border-[var(--blue-mid)] hover:translate-y-[-1px] transition-all bg-white shadow-sm opacity-50 cursor-not-allowed"
+              onClick={() => alert('Google Sign-In coming soon! Please use email for now.')}
+              className="flex items-center justify-center gap-2 py-3 border border-[var(--input-border)] rounded-xl text-sm font-semibold text-[var(--text-2)] hover:border-[var(--blue-mid)] hover:translate-y-[-1px] transition-all bg-white shadow-sm hover:shadow-md"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>

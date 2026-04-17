@@ -3,6 +3,7 @@ const User = require('../models/User');
 const authMiddleware = require('../middleware/authMiddleware');
 const { generateAIResponse } = require('../utils/ai');
 const RoadmapEngine = require('../utils/RoadmapEngine');
+const { estimateSalary } = require('../utils/salaryEstimator');
 
 // Helper moved to RoadmapEngine or cleaned up if unused
 function matchSkill(userSkills, requiredSkill) {
@@ -81,13 +82,23 @@ router.post('/save', authMiddleware, async (req, res) => {
       0   // No roadmap progress yet
     );
     
+    // Compute personalized salary estimate from market data
+    const salaryEstimate = estimateSalary(
+      role,
+      skills,
+      profile?.mode || "Placement",
+      profile?.year || "3rd Year"
+    );
+
     // Build a complete gapReport the Dashboard can render
     const gapReport = {
       ...categorizedGaps,
       readinessScore: readiness.readinessScore,
       insight: readiness.insight,
-      currentSalary: "4LPA",
-      targetSalary: "12LPA"
+      currentSalary: salaryEstimate.currentSalary,
+      targetSalary: salaryEstimate.targetSalary,
+      salaryGrowth: salaryEstimate.salaryGrowth,
+      salaryReasoning: salaryEstimate.reasoning
     };
     
     const user = await User.findByIdAndUpdate(

@@ -4,6 +4,7 @@ const { generateAIResponse } = require('../utils/ai');
 const User = require('../models/User');
 const authMiddleware = require('../middleware/authMiddleware');
 const RoadmapEngine = require('../utils/RoadmapEngine');
+const { estimateSalary } = require('../utils/salaryEstimator');
 
 /**
  * Career Routes — Onboarding, Interviews, Gap Analysis
@@ -42,6 +43,14 @@ router.post('/onboard', authMiddleware, async (req, res) => {
       0   // No roadmap progress yet
     );
 
+    // Compute personalized salary estimate from market data
+    const salaryEstimate = estimateSalary(
+      profile.targetRole || "Software Developer",
+      profile.skills || [],
+      profile.mode || "Placement",
+      profile.year || "3rd Year"
+    );
+
     // Save to user
     const user = await User.findByIdAndUpdate(req.user._id, {
       profile: profile,
@@ -50,8 +59,10 @@ router.post('/onboard', authMiddleware, async (req, res) => {
         ...gaps,
         readinessScore: readiness.readinessScore,
         insight: readiness.insight,
-        currentSalary: "4LPA",
-        targetSalary: "12LPA"
+        currentSalary: salaryEstimate.currentSalary,
+        targetSalary: salaryEstimate.targetSalary,
+        salaryGrowth: salaryEstimate.salaryGrowth,
+        salaryReasoning: salaryEstimate.reasoning
       },
       confidenceScore: readiness.readinessScore,
       onboardingDone: true
@@ -97,12 +108,22 @@ router.get('/regenerate-gaps', authMiddleware, async (req, res) => {
       user.roadmapProgress || 0
     );
     
+    // Compute personalized salary estimate
+    const salaryEstimate = estimateSalary(
+      role,
+      skills,
+      user.profile?.mode || "Placement",
+      user.profile?.year || "3rd Year"
+    );
+
     const gapReport = {
       ...gaps,
       readinessScore: readiness.readinessScore,
       insight: readiness.insight,
-      currentSalary: "4LPA",
-      targetSalary: "12LPA"
+      currentSalary: salaryEstimate.currentSalary,
+      targetSalary: salaryEstimate.targetSalary,
+      salaryGrowth: salaryEstimate.salaryGrowth,
+      salaryReasoning: salaryEstimate.reasoning
     };
     
     user.gapReport = gapReport;

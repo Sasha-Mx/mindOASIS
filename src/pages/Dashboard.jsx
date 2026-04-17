@@ -440,10 +440,22 @@ const Dashboard = () => {
 
                         {/* Salary Estimate */}
                         {gapReport.currentSalary && gapReport.targetSalary && (
-                          <div className="flex items-center gap-3 mb-6 text-sm">
-                            <span className="bg-rose-50 text-rose-600 px-3 py-1 rounded-full font-bold">₹{gapReport.currentSalary} now</span>
-                            <span className="text-slate-300">→</span>
-                            <span className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full font-bold">₹{gapReport.targetSalary} after</span>
+                          <div className="mb-6">
+                            <div className="flex items-center gap-3 text-sm">
+                              <span className="bg-rose-50 text-rose-600 px-3 py-1.5 rounded-full font-bold border border-rose-100">₹{gapReport.currentSalary} now</span>
+                              <span className="text-slate-300 text-lg">→</span>
+                              <span className="bg-emerald-50 text-emerald-600 px-3 py-1.5 rounded-full font-bold border border-emerald-100">₹{gapReport.targetSalary} target</span>
+                              {gapReport.salaryGrowth && (
+                                <span className="bg-blue-50 text-blue-600 px-2 py-1 rounded-lg text-xs font-black border border-blue-100">
+                                  📈 {gapReport.salaryGrowth} growth
+                                </span>
+                              )}
+                            </div>
+                            {gapReport.salaryReasoning && (
+                              <p className="text-[11px] text-slate-400 mt-2 leading-relaxed font-medium pl-1">
+                                💡 {gapReport.salaryReasoning}
+                              </p>
+                            )}
                           </div>
                         )}
 
